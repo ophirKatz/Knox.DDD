@@ -9,7 +9,7 @@ namespace Knox.DDD.Abstractions
 
 		public TId Id { get; protected set; }
 
-		public override bool Equals(object obj)
+		public override bool Equals(object? obj)
 		{
 			if (obj is not EntityBase<TId> other)
 				return false;
@@ -17,10 +17,7 @@ namespace Knox.DDD.Abstractions
 			if (ReferenceEquals(this, other))
 				return true;
 
-			if (GetUnproxiedType(this) != GetUnproxiedType(other))
-				return false;
-
-			if (Id.Equals(default) || other.Id.Equals(default))
+			if (Equals(Id, default) || Equals(other.Id, default))
 				return false;
 
 			return Id.Equals(other.Id);
@@ -44,7 +41,7 @@ namespace Knox.DDD.Abstractions
 
 		public override int GetHashCode()
 		{
-			return (GetUnproxiedType(this).ToString() + Id).GetHashCode();
+			return (GetType().ToString() + Id).GetHashCode();
 		}
 	}
 }

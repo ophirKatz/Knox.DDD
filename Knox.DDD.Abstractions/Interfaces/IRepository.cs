@@ -4,6 +4,6 @@
     {
         Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default);
         Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default);
-        Task<T> AddAsync(T item, CancellationToken cancellationToken = default);
+        void Add(T item, CancellationToken cancellationToken = default);
     }
 }

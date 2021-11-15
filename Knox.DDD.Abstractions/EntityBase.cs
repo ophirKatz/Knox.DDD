@@ -5,6 +5,8 @@ namespace Knox.DDD.Abstractions
 		protected EntityBase(TId id)
 		{
             Id = id;
+
+			_domainEvents = new List<DomainEvent>();
 		}
 
 		public TId Id { get; protected set; }
@@ -43,5 +45,12 @@ namespace Knox.DDD.Abstractions
 		{
 			return (GetType().ToString() + Id).GetHashCode();
 		}
+
+		protected void AddEvent(DomainEvent domainEvent)
+		{
+			_domainEvents.Add(domainEvent);
+		}
+
+		private readonly List<DomainEvent> _domainEvents;
 	}
 }

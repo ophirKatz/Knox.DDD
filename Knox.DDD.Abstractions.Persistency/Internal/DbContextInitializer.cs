@@ -19,7 +19,7 @@ public class DbContextInitializer : IDbContextInitializer
 
     private void InitializeRepositories(IDbContext context)
     {
-        foreach (var repositoryProperty in _repositoryFinder.FindRepositories(context.GetType()).Where(p => p.Setter != null))
+        foreach (var repositoryProperty in _repositoryFinder.FindRepositories(context.GetType()))
         {
             var repositoryInstance =
                 _repositoryFactory.Create(repositoryProperty.EntityType, repositoryProperty.EntityIdType, null);
@@ -30,7 +30,7 @@ public class DbContextInitializer : IDbContextInitializer
             catch (Exception e)
             {
                 throw new Exception(
-                    $"Repository property {repositoryProperty.Name} on IDbContext type {context.GetType().Name} must have a public set accessor",
+                    $"Repository property {repositoryProperty.Name} on DbContext type {context.GetType().Name} must have a public set accessor",
                     e
                 );
             }

@@ -13,6 +13,6 @@ public static class DbContextConfigurationBuilderExtensions
     {
         collectionName ??= typeof(T).Name;
         var repositoryType = repositorySelector().GetType();
-        return builder.SetRepositoryOptions(new MongoDbRepositoryOptions(collectionName, typeof(T), repositoryType));
+        return builder.ConfigureRepository(new MongoDbRepositoryOptions(collectionName, typeof(T), repositoryType));
     }
 }

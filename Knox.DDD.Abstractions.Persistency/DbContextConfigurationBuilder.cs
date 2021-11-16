@@ -9,7 +9,7 @@ public class DbContextConfigurationBuilder
         _repositoryOptions = new List<IRepositoryOptions>();
     }
 
-    public DbContextConfigurationBuilder SetRepositoryOptions(IRepositoryOptions options)
+    public DbContextConfigurationBuilder ConfigureRepository(IRepositoryOptions options)
     {
         _repositoryOptions.Add(options);
         return this;

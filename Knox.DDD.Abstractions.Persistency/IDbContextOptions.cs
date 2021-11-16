@@ -4,5 +4,6 @@ namespace Knox.DDD.Abstractions.Persistency;
 
 public interface IDbContextOptions
 {
-    IEnumerable<IDbContextOptionsExtension> Extensions { get; }
+    IReadOnlyList<IDbContextOptionsExtension> Extensions { get; }
+    IReadOnlyDictionary<(Type, Type), IRepositoryOptions> RepositoryOptions { get; }
 }

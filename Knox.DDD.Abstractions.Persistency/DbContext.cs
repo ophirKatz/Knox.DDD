@@ -1,27 +1,75 @@
-﻿namespace Knox.DDD.Abstractions.Persistency;
+﻿using Knox.DDD.Abstractions.Persistency.Internal;
+using Microsoft.Extensions.DependencyInjection;
+
+namespace Knox.DDD.Abstractions.Persistency;
 
 public abstract class DbContext : IDbContext
 {
-    protected DbContext(IDbContextOptions options);
-
-    public abstract void Dispose();
-
-    public abstract ValueTask DisposeAsync();
-
     public IDbContextOptions Options { get; }
 
-    public Task<bool> SaveChangesAsync()
+    protected DbContext(IDbContextOptions options)
     {
-        throw new NotImplementedException();
+        Options = options;
+
+        foreach (var initializer in ServiceScopeCache.Instance.GetOrAdd(Options)
+            .ServiceProvider
+            .GetRequiredService<IEnumerable<IDbContextInitializer>>())
+        {
+            initializer.Initialize(this);
+        }
     }
 
-    public Task DeleteChangesAsync()
+    protected DbContext(IDbContextOptionsBuilder builder)
     {
-        throw new NotImplementedException();
+        Configure(builder);
+        Options = builder.Build();
+
+        foreach (var initializer in ServiceScopeCache.Instance.GetOrAdd(Options)
+            .ServiceProvider
+            .GetRequiredService<IEnumerable<IDbContextInitializer>>())
+        {
+            initializer.Initialize(this);
+        }
     }
 
-    public void Configure(DbContextConfigurationBuilder builder)
+    public void Dispose()
     {
-        throw new NotImplementedException();
+        DisposeServiceScope();
+    }
+
+    public ValueTask DisposeAsync()
+    {
+        DisposeServiceScope();
+        return ValueTask.CompletedTask;
+    }
+
+    public async Task<bool> SaveChangesAsync()
+    {
+        bool result = true;
+        foreach (var finalizer in ServiceScopeCache.Instance
+            .GetOrAdd(Options)
+            .ServiceProvider
+            .GetRequiredService<IEnumerable<IDbContextFinalizer>>())
+        {
+            result = await finalizer.FinalizeAsync(this);
+            if (!result)
+            {
+                break;
+            }
+        }
+
+        DisposeServiceScope();
+
+        return result;
+    }
+
+    public virtual void Configure(IDbContextOptionsBuilder builder)
+    {
+
+    }
+
+    private void DisposeServiceScope()
+    {
+        ServiceScopeCache.Instance.DisposeFor(Options);
     }
 }

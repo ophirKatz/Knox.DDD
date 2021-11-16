@@ -1,11 +1,10 @@
-﻿namespace Knox.DDD.Abstractions.Persistency;
+﻿namespace Knox.DDD.Abstractions.Persistency.Internal;
 
 public interface IDbContext : IDisposable, IAsyncDisposable
 {
     IDbContextOptions Options { get; }
 
     Task<bool> SaveChangesAsync();
-    Task DeleteChangesAsync();
 
-    void Configure(DbContextConfigurationBuilder builder);
+    void Configure(IDbContextOptionsBuilder builder);
 }

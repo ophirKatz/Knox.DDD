@@ -19,7 +19,7 @@ public abstract class MongoDbContext : IDbContext
 
         _database = _client.GetDatabase(options.DatabaseName);
 
-        ((IRepositoryInitializer)ServiceProviderCache.Instance.ServiceProvider
+        ((IRepositoryInitializer)ServiceScopeCache.Instance.ServiceProvider
             .GetService(typeof(IRepositoryInitializer))!)
             .InitializeRepositories(this);
 

@@ -7,11 +7,10 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="MongoDB.Driver" Version="2.13.2" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection.Abstractions" Version="6.0.0" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Knox.DDD.Abstractions.Persistency\Knox.DDD.Abstractions.Persistency.csproj" />
     <ProjectReference Include="..\Knox.DDD.Abstractions\Knox.DDD.Abstractions.csproj" />
   </ItemGroup>
 

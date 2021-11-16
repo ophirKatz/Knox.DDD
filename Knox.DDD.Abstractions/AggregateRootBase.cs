@@ -1,9 +1,8 @@
-﻿namespace Knox.DDD.Abstractions
+﻿namespace Knox.DDD.Abstractions;
+
+public class AggregateRootBase<TId> : EntityBase<TId>
 {
-    public class AggregateRootBase<TId> : EntityBase<TId>
+    public AggregateRootBase(TId id) : base(id)
     {
-        public AggregateRootBase(TId id) : base(id)
-        {
-        }
     }
 }

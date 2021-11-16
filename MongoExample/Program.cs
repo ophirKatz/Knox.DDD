@@ -1,7 +1,4 @@
-﻿using Knox.DDD.Extras.MongoDb;
-using MongoExample;
-
-Console.WriteLine("Hello, World!");
+﻿using MongoExample;
 
 var connectionString = "mongodb://root:password123@localhost:27017";
 var databaseName = "Products";

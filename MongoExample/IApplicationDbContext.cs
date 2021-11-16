@@ -1,9 +1,8 @@
 ﻿using Knox.DDD.Abstractions.Interfaces;
 
-namespace MongoExample
+namespace MongoExample;
+
+internal interface IApplicationDbContext : IDbContext
 {
-    internal interface IApplicationDbContext : IDbContext
-    {
-        IRepository<Product, ProductId> Products { get; }
-    }
+    IRepository<Product, ProductId> Products { get; }
 }

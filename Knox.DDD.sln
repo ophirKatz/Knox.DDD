@@ -3,16 +3,18 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knox.DDD.Abstractions", "Knox.DDD.Abstractions\Knox.DDD.Abstractions.csproj", "{1ABED591-9588-4E74-B721-1BD5A88AB3E7}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Knox.DDD.Abstractions", "Knox.DDD.Abstractions\Knox.DDD.Abstractions.csproj", "{1ABED591-9588-4E74-B721-1BD5A88AB3E7}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{A3FE71ED-D461-4D4C-84D2-D05B306ECAFF}"
 	ProjectSection(SolutionItems) = preProject
 		.gitignore = .gitignore
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knox.DDD.Extras.MongoDb", "Knox.DDD.Extras.MongoDb\Knox.DDD.Extras.MongoDb.csproj", "{CD20D2B0-4081-4A6E-A630-EB363DF7BA6F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Knox.DDD.Extras.MongoDb", "Knox.DDD.Extras.MongoDb\Knox.DDD.Extras.MongoDb.csproj", "{CD20D2B0-4081-4A6E-A630-EB363DF7BA6F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MongoExample", "MongoExample\MongoExample.csproj", "{3E369E61-209E-4676-99C4-8CB40D58352D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MongoExample", "MongoExample\MongoExample.csproj", "{3E369E61-209E-4676-99C4-8CB40D58352D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Knox.DDD.Abstractions.Persistency", "Knox.DDD.Abstractions.Persistency\Knox.DDD.Abstractions.Persistency.csproj", "{2DBBC6C2-A8EB-478E-8DF8-EBA9FCE09C87}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -32,6 +34,10 @@ Global
 		{3E369E61-209E-4676-99C4-8CB40D58352D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3E369E61-209E-4676-99C4-8CB40D58352D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3E369E61-209E-4676-99C4-8CB40D58352D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2DBBC6C2-A8EB-478E-8DF8-EBA9FCE09C87}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2DBBC6C2-A8EB-478E-8DF8-EBA9FCE09C87}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2DBBC6C2-A8EB-478E-8DF8-EBA9FCE09C87}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2DBBC6C2-A8EB-478E-8DF8-EBA9FCE09C87}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

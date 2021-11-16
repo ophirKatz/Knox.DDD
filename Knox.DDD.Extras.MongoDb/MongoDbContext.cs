@@ -1,51 +1,56 @@
-﻿using Knox.DDD.Abstractions;
-using Knox.DDD.Abstractions.Interfaces;
-using Knox.DDD.Extras.MongoDb.Interfaces;
+﻿using Knox.DDD.Abstractions.Persistency;
+using Knox.DDD.Abstractions.Persistency.Internal;
+using Knox.DDD.Extras.MongoDb.Internal;
 using MongoDB.Driver;
 
-namespace Knox.DDD.Extras.MongoDb
+namespace Knox.DDD.Extras.MongoDb;
+
+public abstract class MongoDbContext : IDbContext
 {
-    public abstract class MongoDbContext : IDbContext
+    private readonly IClientSessionHandle _session;
+    private readonly IMongoDatabase _database;
+    private readonly IMongoClient _client;
+
+    protected MongoDbContext(MongoDbContextOptions options)
     {
-        private readonly string _connectionString;
-        private readonly string _databaseName;
+        Options = options;
 
-        private readonly IClientSessionHandle _session;
-        private readonly IMongoActionsAwaiter _actions;
-        private readonly IMongoDatabase _database;
-        private readonly IMongoClient _client;
+        _client = new MongoClient(options.ConnectionString);
 
-        protected MongoDbContext(string connectionString, string databaseName)
-        {
-            _connectionString = connectionString;
-            _databaseName = databaseName;
+        _database = _client.GetDatabase(options.DatabaseName);
 
-            _client = new MongoClient(connectionString);
+        ((IRepositoryInitializer)ServiceProviderCache.Instance.ServiceProvider
+            .GetService(typeof(IRepositoryInitializer))!)
+            .InitializeRepositories(this);
 
-            _database = _client.GetDatabase(databaseName);
+        _session = _client.StartSession();
+        _session.StartTransaction();
+    }
 
-            _actions = new MongoActions();
+    public IDbContextOptions Options { get; }
 
-            _session = _client.StartSession();
-        }
+    public async Task<bool> SaveChangesAsync()
+    {
+        await _session.CommitTransactionAsync();
 
-        public IRepository<T, TId> GetRepository<T, TId>() where T : AggregateRootBase<TId>
-        {
-            throw new NotImplementedException();
-        }
+        return true;
+    }
 
-        public async Task<bool> SaveChangesAsync()
-        {
-            await _actions.WhenAll();
-            await _session.CommitTransactionAsync();
+    public void Dispose()
+    {
+        _session.Dispose();
+        GC.SuppressFinalize(this);
+    }
 
-            return true;
-        }
+    public async Task DeleteChangesAsync()
+    {
+        await _session.AbortTransactionAsync();
+    }
 
-        public void Dispose()
-        {
-            _session.Dispose();
-            GC.SuppressFinalize(this);
-        }
+    public abstract void Configure(DbContextConfigurationBuilder builder);
+
+    public async ValueTask DisposeAsync()
+    {
+        await _session.AbortTransactionAsync();
     }
 }

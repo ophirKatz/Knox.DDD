@@ -8,6 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\Knox.DDD.Abstractions.Persistency\Knox.DDD.Abstractions.Persistency.csproj" />
     <ProjectReference Include="..\Knox.DDD.Abstractions\Knox.DDD.Abstractions.csproj" />
     <ProjectReference Include="..\Knox.DDD.Extras.MongoDb\Knox.DDD.Extras.MongoDb.csproj" />
   </ItemGroup>

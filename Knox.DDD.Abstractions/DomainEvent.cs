@@ -1,6 +1,5 @@
-﻿namespace Knox.DDD.Abstractions
+﻿namespace Knox.DDD.Abstractions;
+
+public class DomainEvent
 {
-    public class DomainEvent
-    {
-    }
 }

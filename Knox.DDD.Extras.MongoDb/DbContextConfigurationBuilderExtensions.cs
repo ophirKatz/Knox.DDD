@@ -6,13 +6,12 @@ namespace Knox.DDD.Extras.MongoDb;
 
 public static class DbContextConfigurationBuilderExtensions
 {
-    public static DbContextConfigurationBuilder SetRepositoryMongoCollection<T, TId>(
-        this DbContextConfigurationBuilder builder,
+    public static DbContextOptionsBuilder SetRepositoryMongoCollection<T, TId>(
+        this DbContextOptionsBuilder builder,
         Func<IRepository<T, TId>> repositorySelector,
         string? collectionName = null) where T : AggregateRootBase<TId>
     {
         collectionName ??= typeof(T).Name;
-        var repositoryType = repositorySelector().GetType();
-        return builder.ConfigureRepository(new MongoDbRepositoryOptions(collectionName, typeof(T), repositoryType));
+        return builder.AddRepositoryOptions(repositorySelector, new MongoDbRepositoryOptions(collectionName));
     }
 }

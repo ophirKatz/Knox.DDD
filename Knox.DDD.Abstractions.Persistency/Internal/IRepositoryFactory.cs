@@ -1,4 +1,4 @@
-﻿namespace Knox.DDD.Abstractions.Persistency;
+﻿namespace Knox.DDD.Abstractions.Persistency.Internal;
 
 public interface IRepositoryFactory
 {

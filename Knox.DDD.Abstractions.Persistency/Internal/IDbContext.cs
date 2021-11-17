@@ -6,5 +6,5 @@ public interface IDbContext : IDisposable, IAsyncDisposable
 
     Task<bool> SaveChangesAsync();
 
-    void Configure(IDbContextOptionsBuilder builder);
+    void Configure(DbContextOptionsBuilder builder);
 }

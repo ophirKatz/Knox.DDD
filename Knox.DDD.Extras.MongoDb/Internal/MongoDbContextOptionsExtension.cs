@@ -1,6 +1,6 @@
-﻿using Knox.DDD.Abstractions.Persistency;
-using Knox.DDD.Abstractions.Persistency.Internal;
+﻿using Knox.DDD.Abstractions.Persistency.Internal;
 using Microsoft.Extensions.DependencyInjection;
+using MongoDB.Driver;
 
 namespace Knox.DDD.Extras.MongoDb.Internal;
 
@@ -18,6 +18,10 @@ public class MongoDbContextOptionsExtension : IDbContextOptionsExtension
 
     public void ApplyServices(IServiceCollection services)
     {
+        IMongoClient mongoClient = new MongoClient(_connectionString);
+        IMongoDatabase mongoDatabase = mongoClient.GetDatabase(_databaseName);
+        services.AddSingleton(mongoClient);
+        services.AddSingleton(mongoDatabase);
         services.AddScoped<IRepositoryFactory, MongoDbRepositoryFactory>();
     }
 }

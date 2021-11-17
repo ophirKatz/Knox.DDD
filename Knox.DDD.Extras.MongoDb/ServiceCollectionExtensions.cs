@@ -5,7 +5,7 @@ namespace Knox.DDD.Extras.MongoDb;
 
 public static class ServiceCollectionExtensions
 {
-    public static IDbContextOptionsBuilder UseMongoDb(this IDbContextOptionsBuilder builder,
+    public static DbContextOptionsBuilder UseMongoDb(this DbContextOptionsBuilder builder,
         string connectionString,
         string databaseName)
     {

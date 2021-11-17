@@ -6,9 +6,10 @@ namespace Knox.DDD.Extras.MongoDb;
 
 public class MongoDbRepository<T, TId> : IRepository<T, TId> where T : AggregateRootBase<TId>
 {
-    public MongoDbRepository(IMongoCollection<T> collection)
+    public MongoDbRepository(IMongoDatabase mongoDatabase,
+        string collectionName)
     {
-        _collection = collection;
+        _collection = mongoDatabase.GetCollection<T>(collectionName);
     }
 
     public void Add(T item, CancellationToken cancellationToken = default)

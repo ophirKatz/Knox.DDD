@@ -19,22 +19,10 @@ public abstract class DbContext : IDbContext
         }
     }
 
-    protected DbContext(IDbContextOptionsBuilder builder)
-    {
-        Configure(builder);
-        Options = builder.Build();
-
-        foreach (var initializer in ServiceScopeCache.Instance.GetOrAdd(Options)
-            .ServiceProvider
-            .GetRequiredService<IEnumerable<IDbContextInitializer>>())
-        {
-            initializer.Initialize(this);
-        }
-    }
-
     public void Dispose()
     {
         DisposeServiceScope();
+        GC.SuppressFinalize(this);
     }
 
     public ValueTask DisposeAsync()
@@ -45,7 +33,7 @@ public abstract class DbContext : IDbContext
 
     public async Task<bool> SaveChangesAsync()
     {
-        bool result = true;
+        var result = true;
         foreach (var finalizer in ServiceScopeCache.Instance
             .GetOrAdd(Options)
             .ServiceProvider
@@ -63,7 +51,7 @@ public abstract class DbContext : IDbContext
         return result;
     }
 
-    public virtual void Configure(IDbContextOptionsBuilder builder)
+    public virtual void Configure(DbContextOptionsBuilder builder)
     {
 
     }

@@ -1,16 +1,14 @@
 ﻿using Knox.DDD.Abstractions.Persistency;
+using Knox.DDD.Abstractions.Persistency.Internal;
 
 namespace Knox.DDD.Extras.MongoDb.Internal;
 
 public class MongoDbRepositoryOptions : IRepositoryOptions
 {
-    public MongoDbRepositoryOptions(string collectionName,
-        Type entityType)
+    public MongoDbRepositoryOptions(string collectionName)
     {
         CollectionName = collectionName;
-        EntityType = entityType;
     }
 
     public string CollectionName { get; }
-    public Type EntityType { get; }
 }

@@ -1,17 +1,14 @@
-﻿using Knox.DDD.Abstractions.Persistency;
+﻿using Knox.DDD.Abstractions.Persistency.Internal;
 using MongoDB.Driver;
 
 namespace Knox.DDD.Extras.MongoDb.Internal;
 
 public class MongoDbRepositoryFactory : IRepositoryFactory
 {
-    private readonly IMongoClient _mongoClient;
     private readonly IMongoDatabase _mongoDatabase;
 
-    public MongoDbRepositoryFactory(IMongoClient mongoClient,
-        IMongoDatabase mongoDatabase)
+    public MongoDbRepositoryFactory(IMongoDatabase mongoDatabase)
     {
-        _mongoClient = mongoClient;
         _mongoDatabase = mongoDatabase;
     }
 
@@ -23,6 +20,6 @@ public class MongoDbRepositoryFactory : IRepositoryFactory
         }
            
         var repositoryType = typeof(MongoDbRepository<,>).MakeGenericType(entityType, entityIdType);
-        return Activator.CreateInstance(repositoryType, mongoRepositoryOptions.CollectionName);
+        return Activator.CreateInstance(repositoryType, _mongoDatabase, mongoRepositoryOptions.CollectionName);
     }
 }

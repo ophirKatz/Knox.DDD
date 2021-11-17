@@ -6,6 +6,7 @@ namespace Knox.DDD.Abstractions.Persistency.Internal;
 public class ServiceScopeCache
 {
     private readonly ConcurrentDictionary<IDbContextOptions, IServiceScope> _configurations = new();
+
     public static ServiceScopeCache Instance { get; } = new();
 
     public IServiceScope GetOrAdd(IDbContextOptions options)

@@ -21,8 +21,9 @@ public class DbContextInitializer : IDbContextInitializer
     {
         foreach (var repositoryProperty in _repositoryFinder.FindRepositories(context.GetType()))
         {
+            var options = context.Options.GetRepositoryOptions(repositoryProperty.EntityType, repositoryProperty.EntityIdType);
             var repositoryInstance =
-                _repositoryFactory.Create(repositoryProperty.EntityType, repositoryProperty.EntityIdType, null);
+                _repositoryFactory.Create(repositoryProperty.EntityType, repositoryProperty.EntityIdType, options);
             try
             {
                 repositoryProperty.Setter!.Invoke(context, repositoryInstance);

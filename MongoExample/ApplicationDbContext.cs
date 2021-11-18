@@ -1,5 +1,5 @@
 ﻿using Knox.DDD.Abstractions.Persistency;
-using Knox.DDD.Extras.MongoDb.Internal;
+using Knox.DDD.Extras.MongoDb;
 
 namespace MongoExample;
 
@@ -13,6 +13,6 @@ internal class ApplicationDbContext : DbContext
 
     public override void Configure(DbContextOptionsBuilder builder)
     {
-        builder.AddRepositoryOptions(x => x.Products, this, new MongoDbRepositoryOptions(nameof(Products)));
+        builder.SetRepositoryMongoCollection(x => x.Products, this, nameof(Products));
     }
 }

@@ -11,6 +11,13 @@ public abstract class DbContext : IDbContext
     {
         Options = options;
 
+        foreach (var x in ServiceScopeCache.Instance.GetOrAdd(Options)
+                     .ServiceProvider
+                     .GetRequiredService<>())
+        {
+            options.
+        }
+
         foreach (var initializer in ServiceScopeCache.Instance.GetOrAdd(Options)
             .ServiceProvider
             .GetRequiredService<IEnumerable<IDbContextInitializer>>())

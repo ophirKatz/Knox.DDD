@@ -21,6 +21,11 @@ public class DbContextOptions : IDbContextOptions
 
     public IEnumerable<IDbContextOptionsExtension> Extensions { get; }
 
+    void IDbContextOptions.Configure(IDbContextConfiguration configuration)
+    {
+        throw new NotImplementedException();
+    }
+
     public IRepositoryOptions GetRepositoryOptions(Type entityType, Type entityIdType)
     {
         // TODO : TryGet

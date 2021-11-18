@@ -23,5 +23,7 @@ public class MongoDbContextOptionsExtension : IDbContextOptionsExtension
         services.AddSingleton(mongoClient);
         services.AddSingleton(mongoDatabase);
         services.AddScoped<IRepositoryFactory, MongoDbRepositoryFactory>();
+        services.AddScoped<IDbContextInitializer, MongoDbContextTransactionInitializer>();
+        services.AddScoped<IDbContextFinalizer, MongoDbContextTransactionFinalizer>();
     }
 }

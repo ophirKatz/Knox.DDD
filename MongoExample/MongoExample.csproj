@@ -13,4 +13,8 @@
     <ProjectReference Include="..\Knox.DDD.Extras.MongoDb\Knox.DDD.Extras.MongoDb.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Configuration\" />
+  </ItemGroup>
+
 </Project>

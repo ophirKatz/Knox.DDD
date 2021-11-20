@@ -2,5 +2,5 @@
 
 public interface IDbContextInitializer
 {
-    void Initialize(IDbContext context);
+    void Initialize(IDbContext context, IModel model);
 }

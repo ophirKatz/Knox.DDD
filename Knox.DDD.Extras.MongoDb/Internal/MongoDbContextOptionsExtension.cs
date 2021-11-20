@@ -20,10 +20,10 @@ public class MongoDbContextOptionsExtension : IDbContextOptionsExtension
     {
         IMongoClient mongoClient = new MongoClient(_connectionString);
         IMongoDatabase mongoDatabase = mongoClient.GetDatabase(_databaseName);
-        services.AddSingleton(mongoClient);
-        services.AddSingleton(mongoDatabase);
-        services.AddScoped<IRepositoryFactory, MongoDbRepositoryFactory>();
-        services.AddScoped<IDbContextInitializer, MongoDbContextTransactionInitializer>();
-        services.AddScoped<IDbContextFinalizer, MongoDbContextTransactionFinalizer>();
+        services.AddSingleton(mongoClient)
+            .AddSingleton(mongoDatabase)
+            .AddScoped<IRepositoryFactory, MongoDbRepositoryFactory>()
+            .AddScoped<IDbContextInitializer, MongoDbContextTransactionInitializer>()
+            .AddScoped<IDbContextFinalizer, MongoDbContextTransactionFinalizer>();
     }
 }

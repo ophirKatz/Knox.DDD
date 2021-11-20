@@ -11,8 +11,9 @@ internal class ApplicationDbContext : DbContext
 
     public IRepository<Product, ProductId> Products { get; } = null!;
 
-    public override void Configure(DbContextOptionsBuilder builder)
+    public override void OnModelCreating(ModelBuilder builder)
     {
-        builder.SetRepositoryMongoCollection(x => x.Products, this, nameof(Products));
+        builder.Entity<Product, ProductId>()
+            .ConfigureCollectionName(nameof(Products));
     }
 }

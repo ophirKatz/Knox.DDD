@@ -7,7 +7,6 @@ var databaseName = "Products";
 
 var options = new DbContextOptionsBuilder()
     .UseMongoDb(connectionString, databaseName)
-    .SetRepositoryMongoCollection<ApplicationDbContext>(x => x.Products, nameof(IApplicationDbContext.Products))
     .Options;
 
 using (var context = new ApplicationDbContext(options))

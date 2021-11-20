@@ -16,7 +16,7 @@ public class MongoDbRepositoryFactory : IRepositoryFactory
     {
         if (options is not MongoDbRepositoryOptions mongoRepositoryOptions)
         {
-            throw new Exception();
+            throw new Exception("Unable to construct a mongo repository, must provide options with a collection name");
         }
            
         var repositoryType = typeof(MongoDbRepository<,>).MakeGenericType(entityType, entityIdType);

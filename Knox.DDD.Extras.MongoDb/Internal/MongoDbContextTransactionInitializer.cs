@@ -1,4 +1,5 @@
-﻿using Knox.DDD.Abstractions.Persistency.Internal;
+﻿using Knox.DDD.Abstractions.Persistency;
+using Knox.DDD.Abstractions.Persistency.Internal;
 using MongoDB.Driver;
 
 namespace Knox.DDD.Extras.MongoDb.Internal;
@@ -13,7 +14,7 @@ public class MongoDbContextTransactionInitializer : IDbContextInitializer
         _mongoClient = mongoClient;
     }
 
-    public void Initialize(IDbContext context)
+    public void Initialize(IDbContext context, IModel model)
     {
         ClientSessionHandle = _mongoClient.StartSession();
         ClientSessionHandle.StartTransaction();

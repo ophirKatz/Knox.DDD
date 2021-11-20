@@ -5,24 +5,39 @@ namespace Knox.DDD.Abstractions.Persistency;
 
 public abstract class DbContext : IDbContext
 {
+    private IDbContextServices _contextServices = null!;
+    private IDbContextServices ContextServices
+    {
+        get
+        {
+            if (_contextServices != null)
+            {
+                return _contextServices;
+            }
+
+            var contextServices = ServiceScopeCache.Instance.GetOrAdd(Options)
+                     .ServiceProvider
+                     .GetRequiredService<IDbContextServices>();
+
+            contextServices.Initialize(this);
+            _contextServices = contextServices;
+            return _contextServices;
+        }
+    }
+
     public IDbContextOptions Options { get; }
 
     protected DbContext(IDbContextOptions options)
     {
         Options = options;
 
-        foreach (var x in ServiceScopeCache.Instance.GetOrAdd(Options)
-                     .ServiceProvider
-                     .GetRequiredService<>())
-        {
-            options.
-        }
+        var model = ContextServices.Model;
 
         foreach (var initializer in ServiceScopeCache.Instance.GetOrAdd(Options)
             .ServiceProvider
-            .GetRequiredService<IEnumerable<IDbContextInitializer>>())
+            .GetServices<IDbContextInitializer>())
         {
-            initializer.Initialize(this);
+            initializer.Initialize(this, model);
         }
     }
 
@@ -41,10 +56,9 @@ public abstract class DbContext : IDbContext
     public async Task<bool> SaveChangesAsync()
     {
         var result = true;
-        foreach (var finalizer in ServiceScopeCache.Instance
-            .GetOrAdd(Options)
+        foreach (var finalizer in ServiceScopeCache.Instance.GetOrAdd(Options)
             .ServiceProvider
-            .GetRequiredService<IEnumerable<IDbContextFinalizer>>())
+            .GetServices<IDbContextFinalizer>())
         {
             result = await finalizer.FinalizeAsync(this);
             if (!result)
@@ -58,9 +72,8 @@ public abstract class DbContext : IDbContext
         return result;
     }
 
-    public virtual void Configure(DbContextOptionsBuilder builder)
+    public virtual void OnModelCreating(ModelBuilder builder)
     {
-
     }
 
     private void DisposeServiceScope()

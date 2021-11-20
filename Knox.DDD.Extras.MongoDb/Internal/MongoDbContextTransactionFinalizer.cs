@@ -1,4 +1,5 @@
-﻿using Knox.DDD.Abstractions.Persistency.Internal;
+﻿using Knox.DDD.Abstractions.Persistency;
+using Knox.DDD.Abstractions.Persistency.Internal;
 
 namespace Knox.DDD.Extras.MongoDb.Internal;
 

@@ -12,16 +12,17 @@ public class DbContextInitializer : IDbContextInitializer
         _repositoryFactory = repositoryFactory;
     }
 
-    public void Initialize(IDbContext context)
+    public void Initialize(IDbContext context, IModel model)
     {
-        InitializeRepositories(context);
+        InitializeRepositories(context, model);
     }
 
-    private void InitializeRepositories(IDbContext context)
+    private void InitializeRepositories(IDbContext context, IModel model)
     {
         foreach (var repositoryProperty in _repositoryFinder.FindRepositories(context.GetType()))
         {
-            var options = context.Options.GetRepositoryOptions(repositoryProperty.EntityType, repositoryProperty.EntityIdType);
+            var entityType = model.GetEntityType(repositoryProperty.EntityType, repositoryProperty.EntityIdType);
+            var options = entityType.GetOptions();
             var repositoryInstance =
                 _repositoryFactory.Create(repositoryProperty.EntityType, repositoryProperty.EntityIdType, options);
             try

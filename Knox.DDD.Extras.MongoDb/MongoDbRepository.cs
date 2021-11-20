@@ -4,7 +4,9 @@ using MongoDB.Driver;
 
 namespace Knox.DDD.Extras.MongoDb;
 
-public class MongoDbRepository<T, TId> : IRepository<T, TId> where T : AggregateRootBase<TId>
+public class MongoDbRepository<T, TId> : IRepository<T, TId>
+    where T : AggregateRootBase<TId>
+    where TId : IdValueBase
 {
     public MongoDbRepository(IMongoDatabase mongoDatabase,
         string collectionName)

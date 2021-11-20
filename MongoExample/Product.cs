@@ -2,18 +2,10 @@
 
 namespace MongoExample;
 
-internal class ProductId : ValueBase
+internal class ProductId : IdValueBase
 {
-    public ProductId(int id)
+    public ProductId(Guid id) : base(id)
     {
-        Id = id;
-    }
-
-    public int Id { get; }
-
-    protected override IEnumerable<object> GetEqualityComponents()
-    {
-        yield return Id;
     }
 }
 

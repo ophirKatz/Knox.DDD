@@ -11,7 +11,7 @@ var options = new DbContextOptionsBuilder()
 
 using (var context = new ApplicationDbContext(options))
 {
-    context.Products.Add(new Product(new ProductId(1)));
+    context.Products.Add(new Product(new ProductId(Guid.NewGuid())));
 }
 
 Console.Read();

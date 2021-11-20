@@ -14,6 +14,7 @@ internal class ApplicationDbContext : DbContext
     public override void OnModelCreating(ModelBuilder builder)
     {
         builder.Entity<Product, ProductId>()
-            .ConfigureCollectionName(nameof(Products));
+            .ConfigureCollectionName(nameof(Products))
+            .ConfigureBsonId();
     }
 }

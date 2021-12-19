@@ -9,7 +9,7 @@ internal class ApplicationDbContext : DbContext
     {
     }
 
-    public IRepository<Product, ProductId> Products { get; } = null!;
+    public IRepository<Product, ProductId> Products { get; set; } = null!;
 
     public override void OnModelCreating(ModelBuilder builder)
     {

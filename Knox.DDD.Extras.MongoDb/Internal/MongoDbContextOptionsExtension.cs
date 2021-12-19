@@ -6,24 +6,38 @@ namespace Knox.DDD.Extras.MongoDb.Internal;
 
 public class MongoDbContextOptionsExtension : IDbContextOptionsExtension
 {
-    private readonly string _connectionString;
-    private readonly string _databaseName;
+    public string ConnectionString { get; init; } = string.Empty;
+    public string DatabaseName { get; init; } = string.Empty;
+    public bool EnableTransaction { get; init; } = false;
 
-    public MongoDbContextOptionsExtension(string connectionString,
-        string databaseName)
+    public MongoDbContextOptionsExtension()
     {
-        _connectionString = connectionString;
-        _databaseName = databaseName;
+
     }
 
     public void ApplyServices(IServiceCollection services)
     {
-        IMongoClient mongoClient = new MongoClient(_connectionString);
-        IMongoDatabase mongoDatabase = mongoClient.GetDatabase(_databaseName);
+        var servers = new List<MongoServerAddress>() { new MongoServerAddress("localhost", 27017) };
+        var credential = MongoCredential.CreateCredential("MongoExample", "root", "password123");
+        var mongoClientSettings = new MongoClientSettings()
+        {
+            DirectConnection = true,
+            Credential = credential,
+            Servers = servers.ToArray(),
+            ApplicationName = "MongoExample",
+        };
+        IMongoClient mongoClient = new MongoClient(mongoClientSettings);
+        // IMongoClient mongoClient = new MongoClient(ConnectionString);
+        IMongoDatabase mongoDatabase = mongoClient.GetDatabase(DatabaseName);
         services.AddSingleton(mongoClient)
             .AddSingleton(mongoDatabase)
-            .AddScoped<IRepositoryFactory, MongoDbRepositoryFactory>()
-            .AddScoped<IDbContextInitializer, MongoDbContextTransactionInitializer>()
-            .AddScoped<IDbContextFinalizer, MongoDbContextTransactionFinalizer>();
+            .AddScoped<IRepositoryFactory, MongoDbRepositoryFactory>();
+
+        if (EnableTransaction)
+        {
+            services
+                .AddScoped<IDbContextInitializer, MongoDbContextTransactionInitializer>()
+                .AddScoped<IDbContextFinalizer, MongoDbContextTransactionFinalizer>();
+        }
     }
 }

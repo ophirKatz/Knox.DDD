@@ -14,10 +14,11 @@ public static class MongoDbModelBuilderExtensions
         return builder.SetOptions(options);
     }
 
-    public static EntityTypeBuilder<T, TId> ConfigureBsonId<T, TId>(this EntityTypeBuilder<T, TId> builder)
+    public static EntityTypeBuilder<T, TId> ConfigureBsonAggregate<T, TId>(this EntityTypeBuilder<T, TId> builder)
         where T : AggregateRootBase<TId>
         where TId : IdValueBase
     {
+        BsonClassMap.RegisterClassMap<T>();
         BsonSerializer.RegisterIdGenerator(
             typeof(TId),
             AggregateIdGenerator<TId>.Instance()

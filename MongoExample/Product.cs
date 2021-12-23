@@ -11,7 +11,10 @@ internal class ProductId : IdValueBase
 
 internal class Product : AggregateRootBase<ProductId>
 {
-    public Product(ProductId id) : base(id)
+    public string Name { get; set; }
+
+    public Product(ProductId id, string name) : base(id)
     {
+        Name = name;
     }
 }

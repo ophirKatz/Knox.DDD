@@ -8,7 +8,7 @@ public class MongoDbContextTransactionFinalizer : IDbContextFinalizer
     public async Task<bool> FinalizeAsync(IDbContext context)
     {
         // TODO : Pass CancellationToken
-        await MongoDbContextTransactionInitializer.ClientSessionHandle!.CommitTransactionAsync();
+        await MongoDbContextSessionInitializer.ClientSessionHandle!.CommitTransactionAsync();
         return true;
     }
 }

@@ -1,5 +1,4 @@
 ﻿using Knox.DDD.Abstractions.Persistency;
-using Knox.DDD.Abstractions.Persistency.Internal;
 
 namespace MongoExample;
 

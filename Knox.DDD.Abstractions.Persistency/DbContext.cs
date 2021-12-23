@@ -55,6 +55,8 @@ public abstract class DbContext : IDbContext
 
     public async Task<bool> SaveChangesAsync()
     {
+        // Finalize should be called on dispose.
+        // Transaction finalizer should be called on save!
         var result = true;
         foreach (var finalizer in ServiceScopeCache.Instance.GetOrAdd(Options)
             .ServiceProvider

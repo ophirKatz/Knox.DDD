@@ -6,7 +6,6 @@ namespace Knox.DDD.Extras.MongoDb;
 
 public class MongoDbRepository<T, TId> : IRepository<T, TId>
     where T : AggregateRootBase<TId>
-    where TId : IdValueBase
 {
     public MongoDbRepository(IMongoDatabase mongoDatabase,
         string collectionName)
@@ -19,14 +18,16 @@ public class MongoDbRepository<T, TId> : IRepository<T, TId>
         _collection.InsertOne(item, new InsertOneOptions(), cancellationToken);
     }
 
-    public Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default)
+    public async Task<IEnumerable<T>> GetAllAsync(CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _collection.FindAsync(x => true, cancellationToken: cancellationToken);
+        return result.Current;
     }
 
-    public Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
+    public async Task<T?> GetByIdAsync(TId id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        var result = await _collection.FindAsync(x => Equals(x.Id, id), cancellationToken: cancellationToken);
+        return result.Current.First();
     }
 
     private readonly IMongoCollection<T> _collection;

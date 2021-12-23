@@ -10,7 +10,7 @@ public abstract class EntityBase<TId>
         DomainEvents = new List<DomainEvent>();
     }
 
-    public TId Id { get; protected set; }
+    public TId Id { get; set; }
     public List<DomainEvent> DomainEvents { get; }
 
     public override bool Equals(object? obj)

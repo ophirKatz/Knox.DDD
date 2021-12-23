@@ -8,21 +8,23 @@ namespace Knox.DDD.Extras.MongoDb;
 
 public class AggregateIdGenerator<TId> : IIdGenerator where TId : IdValueBase
 {
-    private readonly BindingFlags _flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance;
+    private const BindingFlags Flags = BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.SetProperty | BindingFlags.Instance;
 
-    public static AggregateIdGenerator<TId> Instance() => new AggregateIdGenerator<TId>();
+    public static AggregateIdGenerator<TId> Instance() => new();
 
+    private readonly GuidGenerator _guidGenerator = GuidGenerator.Instance;
+    
     public object GenerateId(object container, object document)
     {
-        var newGuid = GuidGenerator.Instance.GenerateId(container, document);
+        var newGuid = _guidGenerator.GenerateId(container, document);
         var newId = FormatterServices.GetUninitializedObject(typeof(TId)) as TId;
-        Type t = typeof(TId);
-        t.InvokeMember(nameof(IdValueBase.Value), _flags, null, newId, new object[] { newGuid });
+        var t = typeof(TId);
+        t.InvokeMember(nameof(IdValueBase.Value), Flags, null, newId, new[] { newGuid });
         return newId!;
     }
 
     public bool IsEmpty(object id)
     {
-        return GuidGenerator.Instance.IsEmpty((id as IdValueBase)?.Value);
+        return _guidGenerator.IsEmpty((id as IdValueBase)?.Value);
     }
 }

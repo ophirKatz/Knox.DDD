@@ -3,7 +3,7 @@ using Knox.DDD.Extras.MongoDb;
 using MongoExample;
 
 var connectionString = "mongodb://localhost:27017";
-var databaseName = "Products";
+var databaseName = "MongoExample";
 
 var options = new DbContextOptionsBuilder()
     .UseMongoDb(new MongoDbContextOptionsExtension

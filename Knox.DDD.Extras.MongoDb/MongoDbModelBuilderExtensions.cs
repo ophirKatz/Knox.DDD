@@ -18,11 +18,7 @@ public static class MongoDbModelBuilderExtensions
         where T : AggregateRootBase<TId>
         where TId : IdValueBase
     {
-        BsonClassMap.RegisterClassMap<T>();
-        BsonSerializer.RegisterIdGenerator(
-            typeof(TId),
-            AggregateIdGenerator<TId>.Instance()
-        );
+        
 
         return builder;
     }
